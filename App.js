@@ -1,84 +1,179 @@
-import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView
+} from 'react-native';
 
 export default function App() {
-  const [ocorrencia, setOcorrencia] = useState("");
-  const [pin, setPin] = useState("");
-  const [pesoCromo, setPesoCromo] = useState("");
-  const [pesoNiquel, setPesoNiquel] = useState("");
+  const [ocorrencia, setOcorrencia] = useState('');
+  const [pin, setPin] = useState('');
+  const [pesoCromo, setPesoCromo] = useState('');
+  const [pesoNiquel, setPesoNiquel] = useState('');
   const [totalMetais, setTotalMetais] = useState(0);
 
-  function calculaMetais() {
-    const Cromo = parseFloat(pesoCromo.replace(",", ".")) || 0;
-    const Niquel = parseFloat(pesoNiquel.replace(",", ".")) || 0;
+  function calcularMetais() {
+    const cromo = parseFloat(pesoCromo.replace(',', '.')) || 0;
+    const niquel = parseFloat(pesoNiquel.replace(',', '.')) || 0;
 
-    const total = Cromo + Niquel;
+    const total = cromo + niquel;
     setTotalMetais(total);
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Tech Alloy - Controle de Produção</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar style="light" />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Digite a ocorrência aqui"
-        value={ocorrencia}
-        onChangeText={setOcorrencia}
-      />
+      <Text style={styles.logo}>TECH ALLOY</Text>
+      <Text style={styles.subtitulo}>Controle de Produção</Text>
 
-      <Text>PIN de segurança</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite seu pin"
-        value={pin}
-        onChangeText={setPin}
-        secureTextEntry={true}
-      />
+      <View style={styles.card}>
+        <Text style={styles.tituloSecao}>Registrar Ocorrência</Text>
 
-      <Button title="ENVIAR OCORRÊNCIA" color="#ff4444" />
+        <TextInput
+          style={styles.input}
+          placeholder="Descreva a ocorrência..."
+          placeholderTextColor="#999"
+          value={ocorrencia}
+          onChangeText={setOcorrencia}
+        />
 
-      <Text style={styles.subtitulo}>Relatório de Ocorrências</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="PIN de Segurança"
+          placeholderTextColor="#999"
+          value={pin}
+          onChangeText={setPin}
+          secureTextEntry
+        />
 
-      <Text>Carga de Cromo (Kg)</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="0,00"
-        value={pesoCromo}
-        onChangeText={setPesoCromo}
-        keyboardType="numeric"
-      />
+        <TouchableOpacity style={styles.botaoVermelho}>
+          <Text style={styles.textoBotao}>ENVIAR OCORRÊNCIA</Text>
+        </TouchableOpacity>
+      </View>
 
-      <Text>Carga de Níquel (Kg)</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="0,00"
-        value={pesoNiquel}
-        onChangeText={setPesoNiquel}
-        keyboardType="numeric"
-      />
+      <View style={styles.card}>
+        <Text style={styles.tituloSecao}>Relatório de Carga de Metais</Text>
 
-      <Button
-        title="CALCULAR TOTAL DE METAIS"
-        color="#4444ff"
-        onPress={calculaMetais}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Carga de Cromo (Kg)"
+          placeholderTextColor="#999"
+          value={pesoCromo}
+          onChangeText={setPesoCromo}
+          keyboardType="numeric"
+        />
 
-      <Text style={styles.resultado}>
-        Peso Total de Carga: {totalMetais.toFixed(2)} Kg
-      </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Carga de Níquel (Kg)"
+          placeholderTextColor="#999"
+          value={pesoNiquel}
+          onChangeText={setPesoNiquel}
+          keyboardType="numeric"
+        />
 
-      <StatusBar style="auto" />
-    </View>
+        <TouchableOpacity
+          style={styles.botaoAzul}
+          onPress={calcularMetais}
+        >
+          <Text style={styles.textoBotao}>CALCULAR TOTAL</Text>
+        </TouchableOpacity>
+
+        <View style={styles.caixaResultado}>
+          <Text style={styles.textoResultado}>
+            Peso Total da Carga: {totalMetais.toFixed(2)} Kg
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    flexGrow: 1,
+    backgroundColor: '#0f172a',
+    alignItems: 'center',
+    padding: 20,
+  },
+
+  logo: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#38bdf8',
+    marginTop: 40,
+  },
+
+  subtitulo: {
+    color: '#94a3b8',
+    marginBottom: 20,
+  },
+
+  card: {
+    width: '100%',
+    backgroundColor: '#1e293b',
+    borderRadius: 15,
+    padding: 20,
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+
+  tituloSecao: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+
+  input: {
+    backgroundColor: '#334155',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 10,
+    color: '#fff',
+  },
+
+  botaoVermelho: {
+    backgroundColor: '#dc2626',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+
+  botaoAzul: {
+    backgroundColor: '#2563eb',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+
+  textoBotao: {
+    color: '#fff',
+    fontWeight: 'bold',
+    letterSpacing: 1,
+  },
+
+  caixaResultado: {
+    marginTop: 15,
+    backgroundColor: '#0ea5e9',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+
+  textoResultado: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
