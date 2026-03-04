@@ -1,24 +1,54 @@
-import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView
-} from 'react-native';
+  ScrollView,
+  Alert,
+  Platform,
+} from "react-native";
 
 export default function App() {
-  const [ocorrencia, setOcorrencia] = useState('');
-  const [pin, setPin] = useState('');
-  const [pesoCromo, setPesoCromo] = useState('');
-  const [pesoNiquel, setPesoNiquel] = useState('');
+  const [ocorrencia, setOcorrencia] = useState("");
+  const [pin, setPin] = useState("");
+  const [pesoCromo, setPesoCromo] = useState("");
+  const [pesoNiquel, setPesoNiquel] = useState("");
   const [totalMetais, setTotalMetais] = useState(0);
 
+  function mostrarAlerta(titulo, mensagem) {
+    if (Platform.OS === "web") {
+      alert(`${titulo}\n\n${mensagem}`);
+    } else {
+      Alert.alert(titulo, mensagem);
+    }
+  }
+
+  function enviarOcorrencia() {
+    if (!ocorrencia.trim()) {
+      mostrarAlerta("Erro", "Descreva a ocorrência antes de enviar.");
+      return;
+    }
+
+    if (pin !== "1234") {
+      mostrarAlerta("PIN inválido", "PIN de segurança incorreto.");
+      return;
+    }
+
+    mostrarAlerta(
+      "Ocorrência registrada",
+      "Sua ocorrência foi enviada com sucesso."
+    );
+
+    setOcorrencia("");
+    setPin("");
+  }
+
   function calcularMetais() {
-    const cromo = parseFloat(pesoCromo.replace(',', '.')) || 0;
-    const niquel = parseFloat(pesoNiquel.replace(',', '.')) || 0;
+    const cromo = parseFloat(pesoCromo.replace(",", ".")) || 0;
+    const niquel = parseFloat(pesoNiquel.replace(",", ".")) || 0;
 
     const total = cromo + niquel;
     setTotalMetais(total);
@@ -51,7 +81,10 @@ export default function App() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.botaoVermelho}>
+        <TouchableOpacity
+          style={styles.botaoVermelho}
+          onPress={enviarOcorrencia}
+        >
           <Text style={styles.textoBotao}>ENVIAR OCORRÊNCIA</Text>
         </TouchableOpacity>
       </View>
@@ -97,83 +130,83 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#0f172a',
-    alignItems: 'center',
+    backgroundColor: "#0f172a",
+    alignItems: "center",
     padding: 20,
   },
 
   logo: {
     fontSize: 26,
-    fontWeight: 'bold',
-    color: '#38bdf8',
+    fontWeight: "bold",
+    color: "#38bdf8",
     marginTop: 40,
   },
 
   subtitulo: {
-    color: '#94a3b8',
+    color: "#94a3b8",
     marginBottom: 20,
   },
 
   card: {
-    width: '100%',
-    backgroundColor: '#1e293b',
+    width: "100%",
+    backgroundColor: "#1e293b",
     borderRadius: 15,
     padding: 20,
     marginVertical: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.4,
     shadowRadius: 8,
     elevation: 5,
   },
 
   tituloSecao: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
 
   input: {
-    backgroundColor: '#334155',
+    backgroundColor: "#334155",
     borderRadius: 10,
     padding: 12,
     marginBottom: 10,
-    color: '#fff',
+    color: "#fff",
   },
 
   botaoVermelho: {
-    backgroundColor: '#dc2626',
+    backgroundColor: "#dc2626",
     padding: 14,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 5,
   },
 
   botaoAzul: {
-    backgroundColor: '#2563eb',
+    backgroundColor: "#2563eb",
     padding: 14,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 5,
   },
 
   textoBotao: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     letterSpacing: 1,
   },
 
   caixaResultado: {
     marginTop: 15,
-    backgroundColor: '#0ea5e9',
+    backgroundColor: "#0ea5e9",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   textoResultado: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
