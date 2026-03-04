@@ -19,6 +19,7 @@ Tecnologias Utilizadas
 - StyleSheet para estilização;
 
 Como Executar o Projeto?
+
 1️⃣ Clonar o repositório
 git clone https://github.com/seu-usuario/tech-alloy.git
 
