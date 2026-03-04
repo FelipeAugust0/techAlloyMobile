@@ -21,7 +21,7 @@ Tecnologias Utilizadas
 Como Executar o Projeto?
 
 1️⃣ Clonar o repositório
-git clone https://github.com/seu-usuario/tech-alloy.git
+git clone https://github.com/FelipeAugust0/techAlloyMobile.git
 
 2️⃣ Acessar a pasta
 cd techAlloyMobile
@@ -36,7 +36,7 @@ Depois disso, abra no:
 Expo Go (celular) ou através do navegador em "http://localhost:8081/"
 
 O sistema:
-- Converte vírgula para ponto (padrão brasileiro → padrão JavaScript);
+- Converte vírgula para ponto;
 - Transforma os valores em float;
 - Soma Cromo + Níquel;
 - Exibe o resultado formatado com duas casas decimais;
